@@ -1,6 +1,6 @@
 """
 Jointure Produit : croise Shopify (units, net sales) et GA4 (trafic PDP,
-conversion) via le SKU, pour les marches e-commerce uniquement (US/UK).
+conversion) via le SKU, pour le marche e-commerce uniquement (US).
 
 En prod, cette jointure est le point le plus fragile du pipeline : un
 produit peut ne pas avoir de page dediee trackee, un slug d'URL peut

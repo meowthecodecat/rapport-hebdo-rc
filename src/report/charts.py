@@ -24,21 +24,27 @@ Deux graphiques :
 
 import math
 
-# --- Chrome (fond, encre, grille) - references/palette.md ---
+# --- Chrome (fond, encre, grille) — palette peche / corail du rapport ---
 CHROME = {
     "light": {
-        "surface": "#fcfcfb", "primary": "#0b0b0b", "secondary": "#52514e",
-        "muted": "#898781", "gridline": "#e1e0d9", "baseline": "#c3c2b7",
+        "surface": "#fff8f3", "primary": "#3d2a22", "secondary": "#7a5c50",
+        "muted": "#a8897c", "gridline": "#edd9cf", "baseline": "#e0c4b6",
     },
     "dark": {
-        "surface": "#1a1a19", "primary": "#ffffff", "secondary": "#c3c2b7",
-        "muted": "#898781", "gridline": "#2c2c2a", "baseline": "#383835",
+        "surface": "#2a1c17", "primary": "#fff4ee", "secondary": "#d4b5a6",
+        "muted": "#a8897c", "gridline": "#4a342c", "baseline": "#5c4238",
     },
 }
 
-# --- Palette categorielle validee (8 teintes, ordre fixe = mecanisme CVD-safe) ---
-CATEGORICAL_LIGHT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
-CATEGORICAL_DARK = ["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#008300", "#9085e9", "#e66767"]
+# Palette categorielle peche/corail (ordre fixe = identite canal stable).
+CATEGORICAL_LIGHT = [
+    "#d96b3c", "#e8885c", "#f5a882", "#c4552a",
+    "#ef9f78", "#b84a24", "#ffc9b0", "#8f3a1f",
+]
+CATEGORICAL_DARK = [
+    "#e8885c", "#f5a882", "#ffc9b0", "#d96b3c",
+    "#ef9f78", "#c4552a", "#ffe0d1", "#a84420",
+]
 
 # Mapping fixe canal -> slot de couleur (jamais recalcule selon le rang du canal).
 CHANNEL_COLOR_ORDER = [
@@ -80,7 +86,7 @@ def render_trend_chart(trend_6m: list[dict], width: int = 640, height: int = 260
     def y_at(v: float) -> float:
         return pad_top + plot_h - (plot_h * (v - v_min) / (v_max - v_min))
 
-    light, dark = CHROME["light"], CHROME["dark"]
+    light = CHROME["light"]
 
     # Grille horizontale (3 paliers, trait fin, jamais pointille).
     grid_svg = []
@@ -130,20 +136,16 @@ def render_trend_chart(trend_6m: list[dict], width: int = 640, height: int = 260
      aria-label="Évolution des sessions sur 6 mois, comparée à l'année précédente">
   <style>
     .viz-trend {{ color-scheme: light; }}
-    .viz-trend {{ --surface: {light['surface']}; --grid: {light['gridline']}; --muted: {light['muted']}; --secondary: {light['secondary']}; --accent: {_channel_color('Organic Search','light')}; }}
-    @media (prefers-color-scheme: dark) {{
-      :root:where(:not([data-theme="light"])) .viz-trend {{ --surface: {dark['surface']}; --grid: {dark['gridline']}; --muted: {dark['muted']}; --secondary: {dark['secondary']}; --accent: {_channel_color('Organic Search','dark')}; }}
-    }}
-    :root[data-theme="dark"] .viz-trend {{ --surface: {dark['surface']}; --grid: {dark['gridline']}; --muted: {dark['muted']}; --secondary: {dark['secondary']}; --accent: {_channel_color('Organic Search','dark')}; }}
+    .viz-trend {{ --surface: {light['surface']}; --grid: {light['gridline']}; --muted: {light['muted']}; --secondary: {light['secondary']}; --accent: #d96b3c; --accent-ly: #f5a882; }}
     .viz-trend .viz-grid {{ stroke: var(--grid); stroke-width: 1; }}
-    .viz-trend .viz-axis-label {{ fill: var(--muted); font-size: 11px; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }}
-    .viz-trend .viz-end-label {{ font-size: 12px; font-weight: 600; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }}
+    .viz-trend .viz-axis-label {{ fill: var(--muted); font-size: 11px; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; }}
+    .viz-trend .viz-end-label {{ font-size: 12px; font-weight: 600; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; }}
     .viz-trend .viz-accent-text {{ fill: var(--accent); }}
-    .viz-trend .viz-muted-text {{ fill: var(--secondary); }}
-    .viz-trend .viz-line-current {{ fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}
-    .viz-trend .viz-line-ly {{ fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 5 4; stroke-linecap: round; }}
-    .viz-trend .viz-dot-current {{ fill: var(--accent); stroke: var(--surface); stroke-width: 2; }}
-    .viz-trend .viz-dot-ly {{ fill: var(--muted); stroke: var(--surface); stroke-width: 2; }}
+    .viz-trend .viz-muted-text {{ fill: var(--accent-ly); }}
+    .viz-trend .viz-line-current {{ fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }}
+    .viz-trend .viz-line-ly {{ fill: none; stroke: var(--accent-ly); stroke-width: 2; stroke-linecap: round; }}
+    .viz-trend .viz-dot-current {{ fill: var(--accent); stroke: #fff; stroke-width: 2; }}
+    .viz-trend .viz-dot-ly {{ fill: var(--accent-ly); stroke: #fff; stroke-width: 2; }}
   </style>
   <rect x="0" y="0" width="{width}" height="{height}" fill="var(--surface)" />
   {''.join(grid_svg)}
@@ -236,23 +238,17 @@ def render_traffic_donut(traffic_sources: list[dict], width: int = 300, height: 
         for i, (ch, pct, _) in enumerate(legend_rows)
     )
 
-    light, dark = CHROME["light"], CHROME["dark"]
+    light = CHROME["light"]
     svg = f"""
 <div class="viz-root viz-donut">
   <style>
-    .viz-donut {{ color-scheme: light; --surface: {light['surface']}; --primary: {light['primary']}; --secondary: {light['secondary']}; }}
-    :root[data-theme="dark"] .viz-donut {{ --surface: {dark['surface']}; --primary: {dark['primary']}; --secondary: {dark['secondary']}; }}
-    .viz-donut .viz-slice {{ stroke: var(--surface); stroke-width: 2; stroke-linejoin: round; }}
-    .viz-donut .viz-slice-label {{ font-size: 11px; font-weight: 600; fill: #ffffff; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }}
-    .viz-donut ul.viz-legend {{ list-style: none; margin: 8px 0 0; padding: 0; font-size: 13px; color: var(--secondary); display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }}
+    .viz-donut {{ color-scheme: light; --surface: #fff8f3; --primary: {light['primary']}; --secondary: {light['secondary']}; }}
+    .viz-donut .viz-slice {{ stroke: #fff8f3; stroke-width: 2; stroke-linejoin: round; }}
+    .viz-donut .viz-slice-label {{ font-size: 11px; font-weight: 600; fill: #ffffff; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; }}
+    .viz-donut ul.viz-legend {{ list-style: none; margin: 8px 0 0; padding: 0; font-size: 11px; color: var(--secondary); display: grid; grid-template-columns: 1fr 1fr; gap: 3px 10px; }}
     .viz-donut .viz-legend-pct {{ color: var(--secondary); font-variant-numeric: tabular-nums; }}
-    .viz-donut .viz-swatch {{ display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }}
+    .viz-donut .viz-swatch {{ display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }}
     {slice_rules("light")}
-    @media (prefers-color-scheme: dark) {{
-      :root:where(:not([data-theme="light"])) .viz-donut {{ --surface: {dark['surface']}; --primary: {dark['primary']}; --secondary: {dark['secondary']}; }}
-      {slice_rules("dark", ':root:where(:not([data-theme="light"])) .viz-donut')}
-    }}
-    {slice_rules("dark", ':root[data-theme="dark"] .viz-donut')}
   </style>
   <svg viewBox="0 0 {width} {height}" width="100%" height="auto" role="img" aria-label="Répartition des sessions par canal de trafic">
     {''.join(paths_svg)}

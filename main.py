@@ -5,16 +5,15 @@ synthétiques - marque fictive "Domaine de Claude").
 Usage :
     python main.py generate-ga4-fixtures  # (re)génère les faux rapports GA4 Data API
     python main.py fetch-ga4              # fixtures/API -> data/raw/ga4_*.json (canonique)
-    python main.py generate-data          # fetch-ga4 + mock Shopify (US/UK) pour la démo join
-    python main.py join                   # jointure Produit SKU (Shopify x GA4), marchés US/UK
-    python main.py build-report           # génère les rapports HTML par marché
-    python main.py export-pdf             # convertit chaque rapport HTML en PDF
+    python main.py generate-data          # fetch-ga4 + mock Shopify (US) pour la démo join
+    python main.py join                   # jointure Produit SKU (Shopify x GA4), US uniquement
+    python main.py build-report           # génère le rapport HTML multi-marchés
+    python main.py export-pdf             # convertit le rapport HTML en PDF
     python main.py all                    # enchaîne fixtures -> fetch-ga4 -> shopify -> join -> report -> pdf
 
-GA4 PoC : les "vrais" inputs de la couche GA4 sont les fixtures
-data/fixtures/ga4/<market>/{summary,top_pages,traffic_sources,trend_6m}.json
-au format runReport. Shopify reste mock ici pour la démo jointure ; en
-prod tu remplaces ces JSON à la main / via ton process.
+Rapport : un seul document US -> UK -> INT -> FR.
+US = e-commerce (Units/Sales/Sessions/Conversion, L6M, top pages, sources, top products).
+UK/INT/FR = trafic (Sessions, top pages, sources).
 """
 
 import argparse
@@ -45,7 +44,7 @@ def cmd_fetch_ga4() -> None:
 
 
 def cmd_generate_shopify_mock() -> None:
-    """Shopify mock uniquement pour alimenter la démo de jointure US/UK."""
+    """Shopify mock uniquement pour alimenter la démo de jointure US."""
     for market_code in ECOMMERCE_MARKETS:
         ga4 = read_json(ga4_path(market_code))
         shopify = generate_shopify_dataset(market_code, ga4)
@@ -83,13 +82,13 @@ def main() -> None:
         "fetch-ga4",
         help="Lit fixtures (ou API si GA4_MODE=real) et écrit data/raw/ga4_*.json canonique.",
     )
+    sub.add_parser("join", help="Jointure Produit SKU (Shopify x GA4) pour l'US.")
+    sub.add_parser("build-report", help="Génère le rapport HTML multi-marchés.")
+    sub.add_parser("export-pdf", help="Exporte le rapport HTML en PDF (Playwright).")
     sub.add_parser(
         "generate-data",
-        help="Démo complète amont : fixtures GA4 + fetch + Shopify mock (US/UK).",
+        help="Démo complète amont : fixtures GA4 + fetch + Shopify mock (US).",
     )
-    sub.add_parser("join", help="Jointure Produit SKU (Shopify x GA4) pour US/UK.")
-    sub.add_parser("build-report", help="Génère les rapports HTML par marché.")
-    sub.add_parser("export-pdf", help="Exporte chaque rapport HTML en PDF (Playwright).")
     sub.add_parser(
         "all",
         help="Enchaîne generate-data -> join -> build-report -> export-pdf.",

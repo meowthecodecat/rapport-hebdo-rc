@@ -54,8 +54,9 @@ TRAFFIC_CHANNELS = [
 
 # type: "ecommerce" -> scorecards Units/Net Sales/Sessions/Conversion,
 #       courbe L6M, top pages, pie traffic sources, top products (join).
-#       "traffic"   -> KPI Sessions, top pages, pie traffic sources,
-#       highlights uniquement (pas de donnees Shopify).
+#       Réservé à l'US dans le rapport multi-marchés.
+#       "traffic"   -> KPI Sessions, top pages, pie traffic sources
+#       (UK / INT / FR — pas de données Shopify dans le rapport).
 MARKETS = {
     "US": {
         "name": "United States",
@@ -72,7 +73,7 @@ MARKETS = {
     },
     "UK": {
         "name": "United Kingdom",
-        "type": "ecommerce",
+        "type": "traffic",
         "currency": "GBP",
         "base_sessions": 21000,
         "base_conversion_rate": 1.45,

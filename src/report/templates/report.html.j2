@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rapport hebdomadaire – {{ brand_name }} – {{ period.current_week.start }}</title>
+<style>{{ base_css }}</style>
+</head>
+<body>
+<div class="report">
+  <div class="report-header">
+    <div class="brand">{{ brand_name }} · Weekly performance</div>
+    <h1>Rapport hebdomadaire</h1>
+    <div class="period">
+      Semaine du {{ period.current_week.start }} au {{ period.current_week.end }}
+      · vs S-1 : {{ period.previous_week.start }} – {{ period.previous_week.end }}
+      · vs même semaine LY : {{ period.same_week_last_year.start }} – {{ period.same_week_last_year.end }}
+    </div>
+  </div>
+
+  {% for m in markets %}
+  <section class="market">
+    <div class="market-label">{{ m.market_code }}</div>
+
+    {% if m.type == 'ecommerce' %}
+    <div class="scorecards">
+      {% for card in m.scorecards %}
+      <div class="stat-tile">
+        <div class="label">{{ card.label }}</div>
+        <div class="value">
+          {%- if card.kind == 'money' -%}{{ card.value | money_fmt(m.currency) }}
+          {%- elif card.kind == 'rate' -%}{{ '%.1f'|format(card.value) }}%
+          {%- else -%}{{ card.value | int_fmt }}
+          {%- endif -%}
+        </div>
+        <div class="deltas">
+          <span class="delta {{ 'good' if card.vs_lw >= 0 else 'bad' }}">{{ '▲' if card.vs_lw >= 0 else '▼' }} {{ card.vs_lw | pct_fmt }}<span class="vs-label">vs LW</span></span>
+          <span class="delta {{ 'good' if card.vs_ly >= 0 else 'bad' }}">{{ '▲' if card.vs_ly >= 0 else '▼' }} {{ card.vs_ly | pct_fmt }}<span class="vs-label">vs LY</span></span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="block-title">L6M vs LY traffic</div>
+    <div class="chart-card">{{ m.trend_chart_svg }}</div>
+    {% else %}
+    <div class="scorecards single">
+      <div class="stat-tile">
+        <div class="label">Sessions</div>
+        <div class="value">{{ m.sessions_card.value | int_fmt }}</div>
+        <div class="deltas">
+          <span class="delta {{ 'good' if m.sessions_card.vs_lw >= 0 else 'bad' }}">{{ '▲' if m.sessions_card.vs_lw >= 0 else '▼' }} {{ m.sessions_card.vs_lw | pct_fmt }}<span class="vs-label">vs LW</span></span>
+          <span class="delta {{ 'good' if m.sessions_card.vs_ly >= 0 else 'bad' }}">{{ '▲' if m.sessions_card.vs_ly >= 0 else '▼' }} {{ m.sessions_card.vs_ly | pct_fmt }}<span class="vs-label">vs LY</span></span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="two-col">
+      <div>
+        <div class="block-title">Top pages</div>
+        <table>
+          <thead>
+            <tr><th>Page</th><th class="num">Traffic</th><th class="num">Eng. time</th></tr>
+          </thead>
+          <tbody>
+          {% for page in m.top_pages %}
+            <tr>
+              <td class="main-cell">{{ page.url }}</td>
+              <td class="num">
+                {{ page.sessions | int_fmt }}
+                <span class="delta-inline {{ 'good' if page.sessions_vs_lw_pct >= 0 else 'bad' }}">{{ page.sessions_vs_lw_pct | pct_fmt }}</span>
+              </td>
+              <td class="num">{{ '%.0f'|format(page.engagement_time_avg_sec) }}s</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="block-title">Traffic sources</div>
+        <div class="sources-card">{{ m.traffic_donut_svg }}</div>
+      </div>
+    </div>
+
+    {% if m.type == 'ecommerce' %}
+    <div class="products-wrap">
+      <div class="block-title">Top products</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th class="num">Units</th>
+            <th class="num">Net sales</th>
+            <th class="num">PDP traffic</th>
+            <th class="num">Conv.</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for p in m.top_products %}
+          <tr>
+            <td class="main-cell">{{ p.product_name }}</td>
+            <td class="num">{{ p.units | int_fmt }}</td>
+            <td class="num">{{ p.net_sales | money_fmt(m.currency) }}</td>
+            <td class="num">{{ p.sessions | int_fmt }}</td>
+            <td class="num">{{ '%.2f'|format(p.conversion_rate_pct) }}%</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <div class="market-foot">Source : {% if m.type == 'ecommerce' %}Shopify &amp; Google Analytics{% else %}Google Analytics{% endif %}</div>
+  </section>
+  {% endfor %}
+
+  <div class="footer-note">Généré automatiquement le {{ generated_at }} · Données 100% synthétiques (proof of product) · {{ brand_name }}</div>
+</div>
+</body>
+</html>
