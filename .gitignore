@@ -8,3 +8,5 @@ data/raw/*.json
 data/processed/*.json
 output/*.html
 output/pdf/*.pdf
+
+# Les fixtures GA4 (faux runReport) SONT versionnees : data/fixtures/ga4/**

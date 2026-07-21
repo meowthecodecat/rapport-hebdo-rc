@@ -15,6 +15,22 @@ reste utile tel quel pour piloter le vrai pipeline GA4/Shopify.
 # execution (reproductibilite pour les demos / tests).
 RNG_SEED = 42
 
+# ---------------------------------------------------------------------------
+# GA4 PoC plug-and-play
+# ---------------------------------------------------------------------------
+# "mock" -> lit data/fixtures/ga4/<market>/*.json (faux runReport)
+# "real" -> src/ga4/real_client.py (a brancher sur BetaAnalyticsDataClient)
+GA4_MODE = "mock"
+
+# Remplacer REPLACE_* par les vrais property IDs le jour du branchement API.
+# Format attendu par la Data API : "properties/123456789"
+GA4_PROPERTY_IDS = {
+    "US": "properties/REPLACE_US",
+    "UK": "properties/REPLACE_UK",
+    "INT": "properties/REPLACE_INT",
+    "FR": "properties/REPLACE_FR",
+}
+
 # Seuil (en %) au-dela duquel un ecart vs LW ou vs LY declenche un
 # highlight dans le rapport. Modifiable sans toucher au code.
 HIGHLIGHT_THRESHOLD_PCT = 15

@@ -22,30 +22,61 @@ playwright install chromium
 
 ## Utilisation
 
+### GA4 (PoC plug-and-play)
+
+Les inputs GA4 de la PoC sont de **faux rapports au format Data API
+`runReport`**, versionnés dans `data/fixtures/ga4/<marché>/` :
+
+- `summary.json`
+- `top_pages.json`
+- `traffic_sources.json`
+- `trend_6m.json`
+
 ```bash
-python main.py generate-data   # (re)génère les JSON mock GA4/Shopify (US/UK/INT/FR)
+python main.py generate-ga4-fixtures   # (re)génère les faux runReport
+python main.py fetch-ga4               # fixtures -> data/raw/ga4_*.json (schéma canonique)
+```
+
+Tu peux éditer les fixtures à la main, ou y coller un vrai dump
+`runReport` plus tard : le normalizer (`src/ga4/normalize.py`) produit
+toujours le même schéma canonique.
+
+Passage au réel : dans `config/settings.py`, renseigner `GA4_PROPERTY_IDS`,
+passer `GA4_MODE = "real"`, et compléter `src/ga4/real_client.py`.
+
+### Pipeline complet (démo)
+
+```bash
+python main.py generate-data   # fixtures GA4 + fetch + Shopify mock (US/UK, pour la démo join)
 python main.py join            # jointure Produit SKU (Shopify x GA4), marchés US/UK
 python main.py build-report    # génère les rapports HTML par marché
 python main.py export-pdf      # convertit chaque rapport HTML en PDF
-python main.py all             # enchaîne les 4 étapes ci-dessus
+python main.py all             # enchaîne les étapes ci-dessus
 ```
 
 Les rapports HTML sont dans `output/report_<marché>.html` (ouvrables
 directement dans un navigateur), les PDF dans `output/pdf/`.
 
+> **Shopify** : le mock reste uniquement pour démarrer la jointure en
+> démo. En usage réel tu fournis tes exports à la main (et tu peux
+> ajuster le PDF toi-même) — le focus PoC de ce repo est GA4.
+
 ## Structure
 
-- `config/settings.py` — paramètres globaux : marchés, seed, seuil des highlights.
-- `src/mock_data/` — catalogue produit + générateurs mock GA4/Shopify.
-- `src/join/` — jointure Produit par SKU (Shopify × GA4), avec log des échecs de mapping.
-- `src/report/` — highlights (texte auto-généré), graphiques SVG, templates Jinja2, export PDF.
-- `data/raw/` — exports mock (équivalent des exports GA4 Data API / Shopify Admin API).
+- `config/settings.py` — marchés, seed, seuil highlights, `GA4_MODE` / property IDs.
+- `data/fixtures/ga4/` — **faux rapports GA4** (format `runReport`), versionnés.
+- `src/ga4/` — client mock/réel + normalizer vers le schéma canonique.
+- `src/mock_data/` — catalogue produit + générateur Shopify mock (démo join).
+- `src/join/` — jointure Produit par SKU (Shopify × GA4), avec log des échecs.
+- `src/report/` — highlights, graphiques SVG, templates Jinja2, export PDF.
+- `data/raw/` — JSON canoniques générés (`ga4_*.json`, `shopify_*.json`).
 - `data/processed/` — résultat de la jointure + logs de mapping.
 - `output/` — rapports HTML et PDF générés.
 
 ## Passage au réel
 
-Chaque module mock contient un commentaire `MOCK -> REEL` expliquant
-l'appel API à brancher à la place (GA4 Data API `runReport`, Shopify
-Admin API GraphQL). Le reste du pipeline (jointure, highlights, rendu)
-n'a pas besoin de changer tant que le JSON produit respecte le même schéma.
+- **GA4** : `MockGa4Client` → `RealGa4Client` (`BetaAnalyticsDataClient.run_report`),
+  mêmes 4 rapports, même normalizer.
+- **Shopify** : remplacer les JSON mock par tes exports manuels / Admin API ;
+  la jointure ne change pas tant que le schéma produit (SKU, units, net sales)
+  est respecté.

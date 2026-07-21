@@ -1,0 +1,177 @@
+{
+  "kind": "analyticsData#runReport",
+  "property": "properties/REPLACE_INT",
+  "notes": "PoC fixture: channel group + sessions CW/LW.",
+  "dimensionHeaders": [
+    {
+      "name": "sessionDefaultChannelGroup"
+    }
+  ],
+  "metricHeaders": [
+    {
+      "name": "sessions",
+      "type": "TYPE_INTEGER"
+    },
+    {
+      "name": "sessionsLw",
+      "type": "TYPE_INTEGER"
+    }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [
+        {
+          "value": "Organic Search"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "3836"
+        },
+        {
+          "value": "3434"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Referral"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "2039"
+        },
+        {
+          "value": "1942"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Direct"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "1606"
+        },
+        {
+          "value": "1524"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Organic Social"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "1508"
+        },
+        {
+          "value": "1372"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Paid Social"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "1268"
+        },
+        {
+          "value": "1069"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Unassigned"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "802"
+        },
+        {
+          "value": "929"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Paid Search"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "615"
+        },
+        {
+          "value": "541"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Email"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "410"
+        },
+        {
+          "value": "384"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Display"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "246"
+        },
+        {
+          "value": "218"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "Cross-network"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "116"
+        },
+        {
+          "value": "128"
+        }
+      ]
+    }
+  ],
+  "rowCount": 10,
+  "metadata": {
+    "currencyCode": "USD",
+    "timeZone": "Europe/Paris"
+  }
+}

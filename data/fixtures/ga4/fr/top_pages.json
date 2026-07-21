@@ -1,0 +1,422 @@
+{
+  "kind": "analyticsData#runReport",
+  "property": "properties/REPLACE_FR",
+  "notes": "PoC fixture: pagePath + sku custom. En prod, le sku peut etre derive du pagePath (/products/<slug>) sans custom dimension.",
+  "dimensionHeaders": [
+    {
+      "name": "pagePath"
+    },
+    {
+      "name": "customEvent:sku"
+    }
+  ],
+  "metricHeaders": [
+    {
+      "name": "sessions",
+      "type": "TYPE_INTEGER"
+    },
+    {
+      "name": "averageSessionDuration",
+      "type": "TYPE_SECONDS"
+    },
+    {
+      "name": "sessionsLw",
+      "type": "TYPE_INTEGER"
+    },
+    {
+      "name": "sessionsLy",
+      "type": "TYPE_INTEGER"
+    }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [
+        {
+          "value": "/"
+        },
+        {
+          "value": "(not set)"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "1409"
+        },
+        {
+          "value": "17.7"
+        },
+        {
+          "value": "1317"
+        },
+        {
+          "value": "1405"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/collections/all"
+        },
+        {
+          "value": "(not set)"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "850"
+        },
+        {
+          "value": "21.6"
+        },
+        {
+          "value": "899"
+        },
+        {
+          "value": "962"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/citrus-vodka-70cl"
+        },
+        {
+          "value": "VOD-CIT-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "712"
+        },
+        {
+          "value": "42.9"
+        },
+        {
+          "value": "764"
+        },
+        {
+          "value": "804"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/anniversary-limited-edition-70cl"
+        },
+        {
+          "value": "LTD-ANNIV-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "703"
+        },
+        {
+          "value": "56.9"
+        },
+        {
+          "value": "962"
+        },
+        {
+          "value": "636"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/herbal-liqueur-50cl"
+        },
+        {
+          "value": "LIQ-HRB-500"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "599"
+        },
+        {
+          "value": "76.8"
+        },
+        {
+          "value": "948"
+        },
+        {
+          "value": "655"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/orange-liqueur-50cl"
+        },
+        {
+          "value": "LIQ-ORG-500"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "558"
+        },
+        {
+          "value": "32.4"
+        },
+        {
+          "value": "579"
+        },
+        {
+          "value": "541"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/london-dry-gin-70cl"
+        },
+        {
+          "value": "GIN-LDN-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "557"
+        },
+        {
+          "value": "71.0"
+        },
+        {
+          "value": "560"
+        },
+        {
+          "value": "542"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/barrel-aged-gin-70cl"
+        },
+        {
+          "value": "GIN-BAR-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "490"
+        },
+        {
+          "value": "62.2"
+        },
+        {
+          "value": "531"
+        },
+        {
+          "value": "392"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/pages/our-story"
+        },
+        {
+          "value": "(not set)"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "430"
+        },
+        {
+          "value": "40.7"
+        },
+        {
+          "value": "418"
+        },
+        {
+          "value": "454"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/xo-cognac-70cl"
+        },
+        {
+          "value": "COG-XO-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "422"
+        },
+        {
+          "value": "38.1"
+        },
+        {
+          "value": "423"
+        },
+        {
+          "value": "566"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/original-vodka-70cl"
+        },
+        {
+          "value": "VOD-ORG-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "360"
+        },
+        {
+          "value": "44.8"
+        },
+        {
+          "value": "381"
+        },
+        {
+          "value": "386"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/vsop-cognac-70cl"
+        },
+        {
+          "value": "COG-VSOP-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "305"
+        },
+        {
+          "value": "43.3"
+        },
+        {
+          "value": "299"
+        },
+        {
+          "value": "337"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/single-malt-whisky-70cl"
+        },
+        {
+          "value": "WHY-SGL-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "279"
+        },
+        {
+          "value": "38.2"
+        },
+        {
+          "value": "264"
+        },
+        {
+          "value": "293"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/vs-cognac-70cl"
+        },
+        {
+          "value": "COG-VS-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "271"
+        },
+        {
+          "value": "55.3"
+        },
+        {
+          "value": "291"
+        },
+        {
+          "value": "251"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/blended-whisky-70cl"
+        },
+        {
+          "value": "WHY-BLD-700"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "255"
+        },
+        {
+          "value": "30.3"
+        },
+        {
+          "value": "186"
+        },
+        {
+          "value": "237"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "/products/vintage-reserve-cognac-40cl-2019"
+        },
+        {
+          "value": "COG-VTG-2019-DISC"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "60"
+        },
+        {
+          "value": "22.3"
+        },
+        {
+          "value": "65"
+        },
+        {
+          "value": "66"
+        }
+      ]
+    }
+  ],
+  "rowCount": 16,
+  "metadata": {
+    "currencyCode": "USD",
+    "timeZone": "Europe/Paris"
+  }
+}

@@ -3,36 +3,61 @@ Point d'entree unique du pipeline (proof of product, données 100%
 synthétiques - marque fictive "Domaine de Claude").
 
 Usage :
-    python main.py generate-data   # (re)génère les JSON mock GA4/Shopify (US/UK/INT/FR)
-    python main.py join            # jointure Produit SKU (Shopify x GA4), marchés US/UK
-    python main.py build-report    # génère les rapports HTML par marché (data/ -> output/)
-    python main.py export-pdf      # convertit chaque rapport HTML en PDF (via Playwright)
-    python main.py all             # enchaîne les 4 étapes ci-dessus
+    python main.py generate-ga4-fixtures  # (re)génère les faux rapports GA4 Data API
+    python main.py fetch-ga4              # fixtures/API -> data/raw/ga4_*.json (canonique)
+    python main.py generate-data          # fetch-ga4 + mock Shopify (US/UK) pour la démo join
+    python main.py join                   # jointure Produit SKU (Shopify x GA4), marchés US/UK
+    python main.py build-report           # génère les rapports HTML par marché
+    python main.py export-pdf             # convertit chaque rapport HTML en PDF
+    python main.py all                    # enchaîne fixtures -> fetch-ga4 -> shopify -> join -> report -> pdf
+
+GA4 PoC : les "vrais" inputs de la couche GA4 sont les fixtures
+data/fixtures/ga4/<market>/{summary,top_pages,traffic_sources,trend_6m}.json
+au format runReport. Shopify reste mock ici pour la démo jointure ; en
+prod tu remplaces ces JSON à la main / via ton process.
 """
 
 import argparse
 
 from config.settings import ALL_MARKETS, ECOMMERCE_MARKETS
+from src.ga4.client import fetch_canonical_ga4
+from src.ga4.fixture_generator import generate_all_fixtures
 from src.join.join_product_performance import join_all_ecommerce_markets
-from src.mock_data.generate_ga4 import generate_ga4_dataset
 from src.mock_data.generate_shopify import generate_shopify_dataset
 from src.report.build_report import build_all_reports
 from src.report.export_pdf import export_all_pdfs
-from src.utils.io import ga4_path, shopify_path, write_json
+from src.utils.io import ga4_path, read_json, shopify_path, write_json
+
+
+def cmd_generate_ga4_fixtures() -> None:
+    written = generate_all_fixtures()
+    for market, paths in written.items():
+        print(f"[GA4 FIXTURES {market}]")
+        for path in paths:
+            print(f"  -> {path}")
+
+
+def cmd_fetch_ga4() -> None:
+    for market_code in ALL_MARKETS:
+        ga4 = fetch_canonical_ga4(market_code)
+        write_json(ga4_path(market_code), ga4)
+        print(f"[FETCH GA4 {market_code}] -> {ga4_path(market_code)}")
+
+
+def cmd_generate_shopify_mock() -> None:
+    """Shopify mock uniquement pour alimenter la démo de jointure US/UK."""
+    for market_code in ECOMMERCE_MARKETS:
+        ga4 = read_json(ga4_path(market_code))
+        shopify = generate_shopify_dataset(market_code, ga4)
+        write_json(shopify_path(market_code), shopify)
+        print(f"[GENERATE {market_code}] Shopify mock -> {shopify_path(market_code)}")
 
 
 def cmd_generate_data() -> None:
-    ga4_by_market = {}
-    for market_code in ALL_MARKETS:
-        ga4 = generate_ga4_dataset(market_code)
-        ga4_by_market[market_code] = ga4
-        write_json(ga4_path(market_code), ga4)
-        print(f"[GENERATE {market_code}] GA4 -> {ga4_path(market_code)}")
-
-    for market_code in ECOMMERCE_MARKETS:
-        shopify = generate_shopify_dataset(market_code, ga4_by_market[market_code])
-        write_json(shopify_path(market_code), shopify)
-        print(f"[GENERATE {market_code}] Shopify -> {shopify_path(market_code)}")
+    """Raccourci démo : fixtures GA4 -> canonique + Shopify mock."""
+    cmd_generate_ga4_fixtures()
+    cmd_fetch_ga4()
+    cmd_generate_shopify_mock()
 
 
 def cmd_join() -> None:
@@ -50,14 +75,30 @@ def cmd_export_pdf() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("generate-data", help="Génère les datasets mock GA4/Shopify (US/UK/INT/FR).")
+    sub.add_parser(
+        "generate-ga4-fixtures",
+        help="Génère les faux rapports GA4 (format Data API runReport) dans data/fixtures/ga4/.",
+    )
+    sub.add_parser(
+        "fetch-ga4",
+        help="Lit fixtures (ou API si GA4_MODE=real) et écrit data/raw/ga4_*.json canonique.",
+    )
+    sub.add_parser(
+        "generate-data",
+        help="Démo complète amont : fixtures GA4 + fetch + Shopify mock (US/UK).",
+    )
     sub.add_parser("join", help="Jointure Produit SKU (Shopify x GA4) pour US/UK.")
     sub.add_parser("build-report", help="Génère les rapports HTML par marché.")
     sub.add_parser("export-pdf", help="Exporte chaque rapport HTML en PDF (Playwright).")
-    sub.add_parser("all", help="Enchaîne generate-data -> join -> build-report -> export-pdf.")
+    sub.add_parser(
+        "all",
+        help="Enchaîne generate-data -> join -> build-report -> export-pdf.",
+    )
 
     args = parser.parse_args()
     commands = {
+        "generate-ga4-fixtures": [cmd_generate_ga4_fixtures],
+        "fetch-ga4": [cmd_fetch_ga4],
         "generate-data": [cmd_generate_data],
         "join": [cmd_join],
         "build-report": [cmd_build_report],

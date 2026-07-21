@@ -1,0 +1,62 @@
+{
+  "kind": "analyticsData#runReport",
+  "property": "properties/REPLACE_FR",
+  "notes": "PoC fixture: 1 row, 3 periodes (CW/LW/LY) aplaties en metrics. En prod, preferer 3 dateRanges sur un vrai runReport.",
+  "dimensionHeaders": [],
+  "metricHeaders": [
+    {
+      "name": "sessions",
+      "type": "TYPE_INTEGER"
+    },
+    {
+      "name": "sessionsLw",
+      "type": "TYPE_INTEGER"
+    },
+    {
+      "name": "sessionsLy",
+      "type": "TYPE_INTEGER"
+    },
+    {
+      "name": "sessionConversionRate",
+      "type": "TYPE_FLOAT"
+    },
+    {
+      "name": "sessionConversionRateLw",
+      "type": "TYPE_FLOAT"
+    },
+    {
+      "name": "sessionConversionRateLy",
+      "type": "TYPE_FLOAT"
+    }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [],
+      "metricValues": [
+        {
+          "value": "8276"
+        },
+        {
+          "value": "8106"
+        },
+        {
+          "value": "7416"
+        },
+        {
+          "value": "0.012000"
+        },
+        {
+          "value": "0.011650"
+        },
+        {
+          "value": "0.012807"
+        }
+      ]
+    }
+  ],
+  "rowCount": 1,
+  "metadata": {
+    "currencyCode": "USD",
+    "timeZone": "Europe/Paris"
+  }
+}

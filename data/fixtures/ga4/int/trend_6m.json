@@ -1,0 +1,417 @@
+{
+  "kind": "analyticsData#runReport",
+  "property": "properties/REPLACE_INT",
+  "notes": "PoC fixture: serie hebdo L6M. En prod, dimension `date` (YYYYMMDD) agregée par semaine ISO cote normalizer.",
+  "dimensionHeaders": [
+    {
+      "name": "weekStart"
+    }
+  ],
+  "metricHeaders": [
+    {
+      "name": "sessions",
+      "type": "TYPE_INTEGER"
+    },
+    {
+      "name": "sessionsLy",
+      "type": "TYPE_INTEGER"
+    }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-01-19"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "8461"
+        },
+        {
+          "value": "15299"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-01-26"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "8577"
+        },
+        {
+          "value": "15545"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-02-02"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9491"
+        },
+        {
+          "value": "14512"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-02-09"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10189"
+        },
+        {
+          "value": "14064"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-02-16"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9434"
+        },
+        {
+          "value": "12389"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-02-23"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10202"
+        },
+        {
+          "value": "11320"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-03-02"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9776"
+        },
+        {
+          "value": "10380"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-03-09"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10232"
+        },
+        {
+          "value": "11069"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-03-16"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9894"
+        },
+        {
+          "value": "11758"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-03-23"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10092"
+        },
+        {
+          "value": "10819"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-03-30"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10120"
+        },
+        {
+          "value": "10136"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-04-06"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9227"
+        },
+        {
+          "value": "11235"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-04-13"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9163"
+        },
+        {
+          "value": "10237"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-04-20"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "8660"
+        },
+        {
+          "value": "10381"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-04-27"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9660"
+        },
+        {
+          "value": "10798"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-05-04"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9952"
+        },
+        {
+          "value": "11251"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-05-11"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10181"
+        },
+        {
+          "value": "11546"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-05-18"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10393"
+        },
+        {
+          "value": "12032"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-05-25"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10221"
+        },
+        {
+          "value": "11156"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-06-01"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9246"
+        },
+        {
+          "value": "12171"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-06-08"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "9383"
+        },
+        {
+          "value": "11926"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-06-15"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10206"
+        },
+        {
+          "value": "12605"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-06-22"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "10941"
+        },
+        {
+          "value": "13487"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-06-29"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "11736"
+        },
+        {
+          "value": "13042"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-07-06"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "12703"
+        },
+        {
+          "value": "14151"
+        }
+      ]
+    },
+    {
+      "dimensionValues": [
+        {
+          "value": "2026-07-13"
+        }
+      ],
+      "metricValues": [
+        {
+          "value": "12446"
+        },
+        {
+          "value": "13046"
+        }
+      ]
+    }
+  ],
+  "rowCount": 26,
+  "metadata": {
+    "currencyCode": "USD",
+    "timeZone": "Europe/Paris"
+  }
+}
