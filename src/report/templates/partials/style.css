@@ -1,0 +1,109 @@
+/* Feuille de style du rapport - embarquee inline dans le HTML pour que
+   le fichier reste autonome (ouverture directe dans un navigateur,
+   export PDF via Playwright sans dependance externe).
+   Palette et tokens repris du skill data-viz du projet (references/palette.md). */
+
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb;
+  --page: #f9f9f7;
+  --primary: #0b0b0b;
+  --secondary: #52514e;
+  --muted: #898781;
+  --gridline: #e1e0d9;
+  --border: rgba(11, 11, 11, 0.10);
+  --delta-good: #006300;
+  --delta-bad: #d03b3b;
+  --draft-bg: #fff8e8;
+  --draft-border: #eda100;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface: #1a1a19;
+    --page: #0d0d0d;
+    --primary: #ffffff;
+    --secondary: #c3c2b7;
+    --muted: #898781;
+    --gridline: #2c2c2a;
+    --border: rgba(255, 255, 255, 0.10);
+    --delta-good: #0ca30c;
+    --delta-bad: #e66767;
+    --draft-bg: #2a2411;
+    --draft-border: #c98500;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19;
+  --page: #0d0d0d;
+  --primary: #ffffff;
+  --secondary: #c3c2b7;
+  --muted: #898781;
+  --gridline: #2c2c2a;
+  --border: rgba(255, 255, 255, 0.10);
+  --delta-good: #0ca30c;
+  --delta-bad: #e66767;
+  --draft-bg: #2a2411;
+  --draft-border: #c98500;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--page);
+  color: var(--primary);
+}
+.report { max-width: 1040px; margin: 0 auto; padding: 32px 24px 64px; }
+
+.report-header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 28px; }
+.report-header .brand { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.report-header h1 { font-size: 26px; margin: 4px 0 6px; }
+.report-header .period { font-size: 14px; color: var(--secondary); }
+
+section { margin-bottom: 36px; }
+h2 { font-size: 16px; margin: 0 0 14px; color: var(--primary); }
+
+.scorecards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.stat-tile {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 18px;
+}
+.stat-tile .label { font-size: 12px; color: var(--secondary); margin-bottom: 6px; }
+.stat-tile .value { font-size: 26px; font-weight: 600; }
+.stat-tile .deltas { margin-top: 8px; display: flex; gap: 12px; font-size: 12px; }
+
+.delta { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.delta.good { color: var(--delta-good); }
+.delta.bad { color: var(--delta-bad); }
+.delta .vs-label { color: var(--muted); margin-left: 3px; }
+
+.two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: start; }
+@media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+thead th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--gridline); }
+tbody td { padding: 9px 12px; border-bottom: 1px solid var(--gridline); color: var(--secondary); }
+tbody tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.main-cell { color: var(--primary); font-weight: 500; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+
+.highlights { border: 1px solid var(--draft-border); background: var(--draft-bg); border-radius: 10px; padding: 16px 18px; }
+.highlights h2 { margin-top: 0; }
+.highlights ul { margin: 0; padding-left: 20px; }
+.highlights li { margin-bottom: 10px; font-size: 13px; color: var(--secondary); line-height: 1.5; }
+.highlights .draft-tag { font-weight: 600; color: var(--primary); }
+
+.mapping-log { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 12px; color: var(--muted); background: var(--surface); }
+.mapping-log strong { color: var(--secondary); }
+
+.footer-note { margin-top: 40px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 14px; }
+
+@media print {
+  body { background: white; }
+  .report { max-width: none; padding: 0 12mm; }
+  section { break-inside: avoid; }
+}

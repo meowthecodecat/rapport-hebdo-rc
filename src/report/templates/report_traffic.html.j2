@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rapport hebdomadaire – {{ market_name }} – {{ period.current_week.start }}</title>
+<style>{{ base_css }}</style>
+</head>
+<body>
+<div class="report">
+  <div class="report-header">
+    <div class="brand">{{ brand_name }} · Rapport hebdomadaire trafic</div>
+    <h1>{{ market_name }} ({{ market_code }})</h1>
+    <div class="period">
+      Semaine du {{ period.current_week.start }} au {{ period.current_week.end }}
+      &nbsp;·&nbsp; vs S-1 : {{ period.previous_week.start }} – {{ period.previous_week.end }}
+      &nbsp;·&nbsp; vs même semaine l'an dernier : {{ period.same_week_last_year.start }} – {{ period.same_week_last_year.end }}
+    </div>
+  </div>
+
+  <section class="scorecards">
+    <div class="stat-tile">
+      <div class="label">Sessions</div>
+      <div class="value">{{ sessions_card.value | int_fmt }}</div>
+      <div class="deltas">
+        <span class="delta {{ 'good' if sessions_card.vs_lw >= 0 else 'bad' }}">{{ '▲' if sessions_card.vs_lw >= 0 else '▼' }} {{ sessions_card.vs_lw | pct_fmt }}<span class="vs-label">vs LW</span></span>
+        <span class="delta {{ 'good' if sessions_card.vs_ly >= 0 else 'bad' }}">{{ '▲' if sessions_card.vs_ly >= 0 else '▼' }} {{ sessions_card.vs_ly | pct_fmt }}<span class="vs-label">vs LY</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="two-col">
+    <div>
+      <h2>Top Pages</h2>
+      <table>
+        <thead>
+          <tr><th>Page</th><th class="num">Sessions</th><th class="num">Engagement moy.</th><th class="num">vs LW</th><th class="num">vs LY</th></tr>
+        </thead>
+        <tbody>
+        {% for page in top_pages %}
+          <tr>
+            <td class="main-cell">{{ page.url }}</td>
+            <td class="num">{{ page.sessions | int_fmt }}</td>
+            <td class="num">{{ '%.0f'|format(page.engagement_time_avg_sec) }}s</td>
+            <td class="num delta {{ 'good' if page.sessions_vs_lw_pct >= 0 else 'bad' }}">{{ page.sessions_vs_lw_pct | pct_fmt }}</td>
+            <td class="num delta {{ 'good' if page.sessions_vs_ly_pct >= 0 else 'bad' }}">{{ page.sessions_vs_ly_pct | pct_fmt }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h2>Traffic Sources</h2>
+      <div class="card">{{ traffic_donut_svg }}</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Détail Traffic Sources (10 canaux)</h2>
+    <table>
+      <thead><tr><th>Canal</th><th class="num">Sessions</th><th class="num">% du trafic</th><th class="num">vs LW</th></tr></thead>
+      <tbody>
+      {% for src in traffic_sources %}
+        <tr>
+          <td class="main-cell">{{ src.channel }}</td>
+          <td class="num">{{ src.sessions | int_fmt }}</td>
+          <td class="num">{{ '%.1f'|format(src.pct_of_total) }}%</td>
+          <td class="num delta {{ 'good' if src.sessions_vs_lw_pct >= 0 else 'bad' }}">{{ src.sessions_vs_lw_pct | pct_fmt }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="highlights">
+    <h2>Highlights <span style="font-weight:400; color: var(--muted); font-size: 12px;">— écarts &gt; {{ highlight_threshold_pct }}% vs LW ou vs LY, seuil configurable</span></h2>
+    <ul>
+      {% for h in highlights %}
+      <li>{{ h }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <div class="footer-note">Généré automatiquement le {{ generated_at }} · Données 100% synthétiques (proof of product, aucune donnée réelle) · {{ brand_name }} · Les highlights sont des pistes générées automatiquement, à valider par un humain avant diffusion.</div>
+</div>
+</body>
+</html>
