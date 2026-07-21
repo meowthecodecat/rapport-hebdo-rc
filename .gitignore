@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Donnees et rapports generes par le pipeline (reproductibles via `python main.py all`)
+data/raw/*.json
+data/processed/*.json
+output/*.html
+output/pdf/*.pdf
