@@ -33,6 +33,51 @@ def _sessions_by_sku(ga4_dataset: dict) -> dict[str, int]:
     }
 
 
+def scaffold_shopify_template(market_code: str, today: date | None = None) -> dict:
+    """Gabarit vide (mêmes clés que le dataset mock, valeurs à 0) destiné
+    à être rempli à la main avec de vraies données Shopify, le temps de
+    ne pas encore brancher l'Admin API. Un produit = une ligne à remplir ;
+    le SKU ne doit pas être modifié (c'est la clé de jointure avec GA4).
+
+    `summary` n'est PAS recalculé automatiquement à partir de `products` :
+    remplissez les deux, `summary` porte les totaux + variations globales,
+    `products` le détail par SKU utilisé par la table Top Products.
+    """
+    cfg = MARKETS[market_code]
+    if cfg["type"] != "ecommerce":
+        raise ValueError(f"{market_code} n'est pas un marche e-commerce : pas de gabarit Shopify a creer.")
+
+    return {
+        "market": market_code,
+        "currency": cfg["currency"],
+        "period": build_period(today),
+        "summary": {
+            "orders": 0,
+            "units": 0,
+            "net_sales": 0.0,
+            "orders_vs_lw_pct": 0.0,
+            "units_vs_lw_pct": 0.0,
+            "net_sales_vs_lw_pct": 0.0,
+            "orders_vs_ly_pct": 0.0,
+            "units_vs_ly_pct": 0.0,
+            "net_sales_vs_ly_pct": 0.0,
+        },
+        "products": [
+            {
+                "sku": product.sku,
+                "product_name": product.name,
+                "category": product.category,
+                "orders": 0,
+                "units": 0,
+                "net_sales": 0.0,
+                "units_vs_lw_pct": 0.0,
+                "net_sales_vs_lw_pct": 0.0,
+            }
+            for product in products_for_shopify()
+        ],
+    }
+
+
 def generate_shopify_dataset(market_code: str, ga4_dataset: dict, today: date | None = None) -> dict:
     cfg = MARKETS[market_code]
     if cfg["type"] != "ecommerce":
